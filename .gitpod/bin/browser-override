@@ -1,0 +1,3 @@
+#!/bin/sh
+gp await-port 23000
+gp preview --external $@

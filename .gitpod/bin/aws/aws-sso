@@ -1,0 +1,41 @@
+AWS_CLI_V2_URL='https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip'
+
+AWS_PROFILE=${1-default}
+
+DEFAULT_REGION=
+DEFAULT_OUTPUT=
+SSO_START_URL=
+SSO_REGION=
+SSO_ACCOUNT_ID=
+SSO_ADMIN_ROLE_NAME=
+SSO_ROLE_NAME=
+
+aws configure set credential_process aws-sso-credential-process
+touch ~/.aws/credentials && chmod 600 $_
+
+echo "generate the ~/.aws/config"
+
+cat << EOF > ~/.aws/config
+[default]
+credential_process = /usr/local/bin/aws-sso-credential-process
+sso_start_url = ${SSO_START_URL}
+sso_region = ${SSO_REGION}
+sso_account_id = ${SSO_ACCOUNT_ID}
+sso_role_name =${SSO_ROLE_NAME}
+region = ${DEFAULT_REGION}
+output = ${DEFAULT_OUTPUT}
+[profile admin]
+credential_process = /usr/local/bin/aws-sso-credential-process admin
+sso_start_url = ${SSO_START_URL}
+sso_region = ${SSO_REGION}
+sso_account_id = ${SSO_ACCOUNT_ID}
+sso_role_name =${SSO_ADMIN_ROLE_NAME}
+region = ${DEFAULT_REGION}
+output = ${DEFAULT_OUTPUT}
+EOF
+
+# skip the configuration as we just generated the config above
+#aws configure sso --profile default
+
+# login to authenticate again
+env BROWSER=browser-override aws sso login --profile $AWS_PROFILE

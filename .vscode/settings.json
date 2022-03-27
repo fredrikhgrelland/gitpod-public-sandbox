@@ -1,0 +1,5 @@
+{
+    "redhat.telemetry.enabled": false,
+    "workbench.startupEditor": "readme",
+    "aws.telemetry": false
+}

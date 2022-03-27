@@ -1,0 +1,4 @@
+[submodule ".airflow/aws-mwaa-local-runner"]
+	path = .airflow/aws-mwaa-local-runner
+	url = https://github.com/aws/aws-mwaa-local-runner
+	branch = v2.2.2
